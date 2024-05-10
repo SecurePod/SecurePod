@@ -9,4 +9,7 @@
 	url = https://github.com/malsuke/SecurePod-backend
 [submodule "frontend"]
 	path = frontend
+	url = https://github.com/malsuke/SecurePod-frontend
+[submodule "backend"]
+	path = backend
 	url = https://github.com/malsuke/SecurePod-backend
