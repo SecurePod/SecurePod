@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+  back:
+    build:
+      context: ./seccube-back
+      target: deploy
+    restart: always
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  front:
+    build:
+      context: ./seccube-front
+    restart: always
+    environment:
+      NODE_ENV: production
