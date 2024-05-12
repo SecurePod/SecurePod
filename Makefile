@@ -1,18 +1,25 @@
-.PHONY: help local up down logs
-.DEFAULT_GOAL := help
+.PHONY: setup
 
-local:
-	docker compose -f compose.dev.yml up --build
+include .env
 
-up:
-	docker compose up -d --build
+setup:
+	@make echo_green TEXT=".envファイルを`./frontend/.env.production`へコピーします";
+	@cp .env ./frontend/.env.production;
 
-down: ## Do docker compose down
-	docker compose down
+	@make echo_green TEXT="演習コンテナをビルドします"
+	./resources/build.sh
 
-logs: ## Tail docker compose logs
-	docker compose logs -f
+	@make echo_green TEXT="環境を構築します"
+	@docker compose up -d --build
 
-help: ## Show options
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
-		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+	@echo "演習環境へアクセスしてください: http://${NEXT_PUBLIC_API_URL}"
+
+destory:
+	@make  echo_green TEXT="Dockerのコンテナを削除します"
+	@docker compose down
+
+env:
+	@make echo_green TEXT="演習環境へアクセスしてください: http://${NEXT_PUBLIC_API_URL}"
+
+echo_green:
+	@echo "\n\033[0;32m${TEXT}\033[0m\n"
