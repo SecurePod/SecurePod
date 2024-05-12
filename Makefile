@@ -1,8 +1,8 @@
-.PHONY: setup
+.PHONY: setup destory 
 
 include .env
 
-setup:
+start:
 	@make echo_green TEXT=".envファイルを`./frontend/.env.production`へコピーします";
 	@cp .env ./frontend/.env.production;
 
@@ -17,9 +17,6 @@ setup:
 destory:
 	@make  echo_green TEXT="Dockerのコンテナを削除します"
 	@docker compose down
-
-env:
-	@make echo_green TEXT="演習環境へアクセスしてください: http://${NEXT_PUBLIC_API_URL}"
 
 echo_green:
 	@echo "\n\033[0;32m${TEXT}\033[0m\n"
